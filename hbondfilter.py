@@ -19,7 +19,7 @@ def Args():
 	sysargparser.add_argument("-t","--target",type=str,help="Specify your protein target e.g. EGFR", required=True)
 	sysargparser.add_argument("-i","--input",type=str,help="Specify (in lower case) the 3-letter input file format of the docked molecules e.g. sdf", required=True)
 	sysargparser.add_argument("-s","--sort",help="use flag if you want to sort data by most passed poses",action="store_true")
-	sysargparser.add_argument("-a","--appendix",type=str,help="Specify suffix used to differentiate docked molecules from non-docked e.g. _dock", required=True)
+	sysargparser.add_argument("-a","--appendix",type=str,help="Specify suffix used to differentiate docked molecules from non-docked e.g. _dock.sdf", required=True)
 	sysargparser.add_argument("-p","--pickled",help="Run this flag after analysing the data at least once, this flag will load in the previously analysed data without rerunning the analysis", action="store_true")
 	sysargs = sysargparser.parse_args()
 	return sysargs
@@ -184,7 +184,7 @@ def MakePDB(molecules):
 def NewDataParser():
 	### Loop through supplied directory and grab all required files as seen below
 	for root, dirs, files in os.walk(path):
-		ligands = [os.path.join(root, name) for name in files if (sysargs.appendix + "." + sysargs.input in name) and ("osimertinib" not in root) and ("receptor" not in name)]
+		ligands = [os.path.join(root, name) for name in files if (sysargs.appendix in name) and ("osimertinib" not in root) and ("receptor" not in name)]
 		for name in files:
 			if name == "receptor.pdb":
 				receptor = os.path.join(root, name)
